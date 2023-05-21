@@ -10,6 +10,13 @@ using std::cout, std::endl;
 int min, max;
 float average;
 
+/**
+ * calcAverage calculates the average value of a vector of integers. Designed
+ * for MULTI-THREADING.
+ * @param param a integer vector full of numbers
+ * @return nothing, but sets the global average variable to the average value
+ * of the numbers in the vector
+ */
 void* calcAverage(void *param) {
     std::vector<int>* integerList = (std::vector<int>*) param;
 
@@ -20,6 +27,13 @@ void* calcAverage(void *param) {
     average = sum / integerList->size();
 }
 
+/**
+ * calcMin calculates the lowest number in a vector of integers. Designed
+ * for MULTI-THREADING.
+ * @param param a integer vector full of numbers
+ * @return nothing, but sets the global min variable to the lowest value
+ * in the vector
+ */
 void* calcMin(void *param) {
     std::vector<int>* integerList = (std::vector<int>*) param;
 
@@ -31,6 +45,13 @@ void* calcMin(void *param) {
     }
 }
 
+/**
+ * calcMax calculates the highest number in a vector of integers. Designed
+ * for MULTI-THREADING.
+ * @param param a integer vector full of numbers
+ * @return nothing, but sets the global max variable to the highest value
+ * in the vector
+ */
 void* calcMax(void *param) {
     std::vector<int>* integerList = (std::vector<int>*) param;
 
