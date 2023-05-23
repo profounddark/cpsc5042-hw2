@@ -4,7 +4,9 @@
 
 
 
-using std::cout, std::cin, std::endl;
+using std::cout;
+using std::cin;
+using std::endl;
 
 int* initArray;
 int* finalArray;
@@ -31,6 +33,7 @@ void* sortArray(void *param) {
         i++;
     }
 
+    return nullptr;
 }
 
 /**
@@ -71,6 +74,7 @@ void* mergeArray(void *param) {
         finalCount++;
     }
 
+    return nullptr;
 
 }
 

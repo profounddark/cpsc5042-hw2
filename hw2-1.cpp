@@ -4,7 +4,8 @@
 
 
 
-using std::cout, std::endl;
+using std::cout;
+using std::endl;
 
 // declare global variables for threads
 int min, max;
@@ -25,6 +26,7 @@ void* calcAverage(void *param) {
         sum = sum + integerList->at(i);
     }
     average = sum / integerList->size();
+    return nullptr;
 }
 
 /**
@@ -43,6 +45,7 @@ void* calcMin(void *param) {
             min = integerList->at(i);
         }
     }
+    return nullptr;
 }
 
 /**
@@ -61,6 +64,7 @@ void* calcMax(void *param) {
             max = integerList->at(i);
         }
     }
+    return nullptr;
 }
 
 int main(int argCount, char* argValue[]) {
@@ -71,24 +75,29 @@ int main(int argCount, char* argValue[]) {
     for (int i = 1; i < argCount; i++) {
         integerList.push_back(std::stoi(argValue[i]));
     }
+    if (integerList.size() > 0) {
+        pthread_t avg_tid, min_tid, max_tid;
 
-    pthread_t avg_tid, min_tid, max_tid;
+        // create thread with default attributes
+        pthread_create(&avg_tid, nullptr, calcAverage, &integerList);
+        pthread_create(&min_tid, nullptr, calcMin, &integerList);
+        pthread_create(&max_tid, nullptr, calcMax, &integerList);
 
-    // create thread with default attributes
-    pthread_create(&avg_tid, nullptr, calcAverage, &integerList);
-    pthread_create(&min_tid, nullptr, calcMin, &integerList);
-    pthread_create(&max_tid, nullptr, calcMax, &integerList);
-
-    // wait for threads to finish
-    pthread_join(avg_tid, nullptr);
-    pthread_join(min_tid, nullptr);
-    pthread_join(max_tid, nullptr);
+        // wait for threads to finish
+        pthread_join(avg_tid, nullptr);
+        pthread_join(min_tid, nullptr);
+        pthread_join(max_tid, nullptr);
 
 
-    // output results
-    cout << "The average is " << average << endl;
-    cout << "The minimum is " << min << endl;
-    cout << "The maximum is " << max << endl;
+        // output results
+        cout << "The average is " << average << endl;
+        cout << "The minimum is " << min << endl;
+        cout << "The maximum is " << max << endl;
+    } else {
+        cout << "No parameters specified. Please execute program" << endl;
+        cout << "and provide a list of integers as parameters." << endl;
+    }
+
 
     return 0;
 }
